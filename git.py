@@ -101,6 +101,7 @@ git checkout cat # 切換到 cat branch
 git checkout -b sister # 新增並切換到 sister branch
 git branch bird 657fce7 # 請幫我用在 657fce7 這個 Commit 上開一個叫做 bird 的分支
 git checkout -b bird 657fce7 # 新增並切換到這裡
+git branch -r # 觀看遠端節點上的分支
 
 # 合併分支 merge branch
 # merge 把你的東西抓過來，所以你不變我變
