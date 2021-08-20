@@ -35,5 +35,11 @@ Flask(__name__,static_folder="資料夾名稱",static_url_path="對應路徑")
 # 要求字串的處理
 # 格式： 參數名稱=資料&參數名稱=資料&...
 # 前端送出：提供要求字串
+# 要求字串中的參數值 = request.args.get("參數名稱",預設值)
+# data = request.args.get("max",None)
 
+# 回應方式 Reponse
+# 直接回應字串
+# 回應JSON格式的字串:透過 json.dumps()將 {}型態 的資料轉成 JSON 交出去
+# 重新導向：使用 redirect(網址路徑)
 
