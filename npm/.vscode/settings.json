@@ -1,0 +1,9 @@
+{
+    "terminal.integrated.allowChords": false,
+    "editor.tokenColorCustomizations": null,
+    "profiles":{
+        "defaults":{
+            "colorScheme":"One Half Dark"
+        }
+    }
+}

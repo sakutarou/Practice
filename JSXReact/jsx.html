@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+    <head>
+        <meta charset="utf-8">
+        <script crossorigin src="https://unpkg.com/react@17/umd/react.production.min.js"></script>
+        <script crossorigin src="https://unpkg.com/react-dom@17/umd/react-dom.production.min.js"></script>
+        <script src = "https://unpkg.com/babel-standalone@7.0.0-beta.3/babel.js"></script>
+        <style type="text/css">
+        .head-1{font-size: 20px;font-weight: bold;}
+        .head-2{font-size: 25px;font-weight: bold;}
+        .head-3{font-size: 30px;font-weight: bold;}
+        </style>
+        
+        <script type = "text/babel">
+            class MyHead extends React.Component{
+                constructor(props){
+                    super(props);
+                    this.state={color:"red"};
+                }
+                render(){
+                    // 用 JSX 語法，行內樣式設定
+                    // return <div className="head" style={{color:this.props.color}}> Hello! {this.props.level} </div>;
+                    // return React.createElement("div",{className:"head",style:{color:this.props.color}},"Hello")
+                    return <div 
+                    className={"head-"+this.props.level} 
+                    style={{color:this.state.color}}
+                    onClick={this.clickHandler.bind(this)}
+                    onMouseOver={this.mouseOverHandler.bind(this)}
+                    > Hello</div>
+                    
+                }
+                clickHandler(e){
+                    this.setState({color:"blue"});
+                }
+                mouseOverHandler(e){
+                    this.setState({color:"green"});
+                }
+            }
+            class MyHeadList extends React.Component{
+                render(){
+                    return <div>
+                        <MyHead level="1" color="red"/>
+                        <MyHead level="2" color="green"/>
+                        <MyHead level="3" color="lightgreen"/>
+                    </div>;
+                }
+            }
+            class MyForm extends React.Component{
+                constructor(props){
+                    super(props);
+                    this.state={
+                        name:"",
+                        gender:"male",
+                        story:""
+                    };
+                }
+                render(){
+                    return <form onSubmit={this.handleSubmit.bind(this)}>
+                        Name <input type="text" value={this.state.name} onChange={this.handleNameChange.bind(this)}/>
+                        <br/>
+                        Gender <select value={this.state.gender} onChange={this.hadlerGenderChange.bind(this)}>
+                            <option value="male">男</option>
+                            <option value="female">女</option>    
+                        </select>
+                        <br/>
+                        Story <textarea name="" id="" cols="30" rows="10" value={this.props.story} onChange={this.hadleStoryChange.bind(this)}>
+                            </textarea>
+                        <input type="submit" value="sub" style={{color:"black"}}/>    
+                    </form>;
+                }
+                handleSubmit(e){
+                    e.preventDefault(); // 防止瀏覽器自動重新整理頁面
+                    console.log("表單送出");
+                    console.log(this.state.name);
+                    console.log(this.state.gender);
+                    console.log(this.state.story);
+                }
+                handleNameChange(e){
+                    this.setState({name:e.currentTarget.value})
+                }
+                hadlerGenderChange(e){
+                    this.setState({gender:e.currentTarget.value});
+                }
+                hadleStoryChange(e){
+                    this.setState({story:e.currentTarget.value});
+                }
+
+            }
+            window.addEventListener("load",()=>{
+                // let ele = <MyHeadList/>;
+                // ReactDOM.render(
+                //     ele,document.body)
+                ReactDOM.render(<MyForm/>,document.body);
+            })
+        </script>
+    </head>
+    <body>
+    </body>
+</html>

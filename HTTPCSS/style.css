@@ -1,0 +1,115 @@
+.title{font-weight: bold; font-size: 20px;}
+/* div.content{width:200px; padding:10px; margin-top: 10px; margin-bottom: 20px;border:1px dashed blue} */
+.keyword{color: brown;}
+/* .box{
+    width: 200px;height: 200px;background-color: chartreuse;
+    position: relative;left: 0px;top: 0px;
+} */
+body{
+    font-size: 16px;font-family: "微軟正黑體";
+}
+h3{
+    font-size: 30px; text-decoration: underline;
+}
+#btn{
+    border: 1px solid #999999;
+    background-color: chocolate;
+    padding: 20px;
+}
+#btn:hover{
+    background-color: white;
+}
+input:focus{
+    border: 5px solid red;
+}
+.morning h3{
+    color: saddlebrown;
+}
+table{
+    width: 400px;
+    padding: 1px;
+    border-collapse: collapse;
+}
+table td{
+    padding: 10px;
+    border-bottom:1px solid lightgray;
+}
+tr:nth-child(1){
+    background-color: cadetblue;
+    color: white;
+}
+tr:nth-child(even){
+    background-color: lightgray;
+}
+.head{
+    background-color: darkcyan;
+    color: white;
+    font-size: 30px;
+    font-weight: bold;
+    text-align: center;
+    padding: 10px;
+}
+body{
+    margin: 0px;
+    background-color: #eeeeee;
+}
+.content{
+    width: 1000px; margin-left: auto; margin-right: auto;
+}
+.box{
+    width: 280px;
+    height: 200PX;
+    padding: 10px;
+    margin: 10px;
+    margin-top: 30px;
+    background-color: white;
+    display: inline-block;
+    vertical-align: top;
+    line-height: 30px;
+    text-align: center;
+}
+/* @media screen and (max-width:600px){
+    .content{width: 100%;text-align: center;}
+} */
+
+main{
+    display: flex;flex-wrap: wrap;
+    justify-content: center;
+    align-items: flex-start;
+    background-color: #eeeeee;
+}
+main>.item{
+    flex:none;
+    width: 200px;
+    margin: 10px;
+    background-color: lightgray;
+}
+nav{ display: flex;}
+nav>.logo{
+    flex: auto;
+    background-color: #ffcccc;
+}
+nav>.menu{
+    flex: auto;
+    background-color: lightgreen;
+}
+nav>.user{
+    flex: none;width:100px;
+    background-color: lightblue;
+}
+
+/* 規劃:
+1200px:4欄，固定尺寸
+500~1200px:2欄，彈性尺寸
+500px:1欄，彈性尺寸 */
+
+@media (max-width:1200px){
+    main>.item{
+        width:45%;
+    }
+}
+@media (max-width:500px){
+    main>.item{
+        width:90%;
+    }
+}

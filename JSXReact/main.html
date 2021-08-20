@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Homepage</title>
+        <!-- Javascript 的基本操作、網頁動態呼叫、ＪＳＯＮ　使用 -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale= 1 ">
+        <link rel="stylesheet" href="style.css">
+        <style type="text/css">
+       
+        </style>
+        <script type="text/javascript">
+            // var x = prompt("輸入","你的電腦已經中毒了");
+            // x = Number(x);
+            // if (x>10){
+            //     alert(">10");
+            // }else if(x>2){
+            //     alert(">2");
+            // }else {
+            //     alert("很小");
+            // }
+            // while (x>2){
+            //     x--;
+            // }
+            // for(i=10;i>2;i--){
+            //     x--;
+            //     break;
+            //     continue;
+            // }
+
+            // function add(n1,n2){
+            //     return(n1+n2);
+            // }
+            // // 把函式視為資料
+            // var add = function(n1,n2){
+            //     alert(n1+n2);
+            // }
+            // add(31,15);
+            // x = test(x,3,4);
+            // alert(x);
+
+            // var point = new Object();
+            // point.x = 3;
+            // point.y = 4;
+            // point.getPosition=function(){
+            //     alert(this.x,"+",this.y);
+            // }
+
+            // function Player(name,hp){ //建構物件的函式
+            //     this.name = name;
+            //     this.hp = hp;
+            //     this.fight=function(){
+            //         this.hp-=2;
+            //     };
+            //     this.rest=function(){
+            //         this.hp++;
+            //     };
+            // }
+            // var player1 = new Player("Lisa",70);
+            // var player2 = new Player("John",100);
+
+            // alert(window.screen.width + "x" + window.screen.height)
+
+            function getData(pageName){
+                var req = new XMLHttpRequest();
+                req.open("get","http://127.0.0.1:8887/"+pageName);
+                req.onload = function(){
+                    var content = document.getElementById("content");
+                    content.innerHTML = this.responseText;
+                    //alert(this.responseText);
+                }
+                req.send();
+
+            }
+
+            //JSON
+            var point={
+                "x":3,
+                "y":4,
+                "get":function(){
+                    alert(this.x+","+this.y);
+                }
+            }
+            //point.get();
+            //console.log(point);
+            var jsonStr = JSON.stringify(point); //JSON 物件字串化,但函式消失
+            var plainObj = JSON.parse(jsonStr); //JSON 字串物件化
+
+            // 宣告提升 Hoisting : 宣告動數、宣告函數的動作會先執行
+        </script>
+    </head>
+    <body>
+        <!-- <h3>My picture</h3>
+        <img src="grass.jpg" alt=""></img> -->
+        <!-- <h3>My Favorite</h3>
+        <ul>
+            <li> <a href="http://google.com">google</a></li>
+            <li>2</li>
+        </ul> -->
+        <!-- <hr>
+        <hr/>
+        <h3>
+            表格輸入
+        </h3>
+        <table border = "1" width ="400" cellpadding="5">
+            <tr>
+                <td>1</td>
+                <td>2</td>
+                <td>3</td>
+            </tr>
+            <tr>
+                <td><b>4</b></td>
+                <td><u>5</u></td>
+                <td>6</td>
+            </tr>   
+            <tr>
+                <td>7</td>
+                <td>8</td>
+                <td>9</td>
+            </tr>
+        </table> -->
+        <!-- <div class="title"> 今天天氣很好</div>
+        <div class="content">
+            我想吃<br>
+            <span class="keyword">早餐</span>
+        </div>
+        <div class="box"></div> -->
+
+        <!-- <h3>早安</h3>
+        <div class="morning"> <h3>大家</h3> 好 </div>
+        <h3>午安</h3>
+        <div class="afternoon"> 大家不好 </div>
+        <h3>晚安</h3>
+        <div class="content"> 吃點心 </div>
+        <h3>吃宵夜</h3>
+        <input type="我想吃">
+        <div id="btn"> 送出 </div> -->
+
+        <!-- <table>
+            <tr>
+                <td> 早餐 </td>
+                <TD> 午餐 </TD>
+                <td> 晚餐 </td>
+            </tr>
+            <tr>
+                <td> 早餐 </td>
+                <TD> 午餐 </TD>
+                <td> 晚餐 </td>
+            </tr>
+            <tr>
+                <td> 早餐 </td>
+                <TD> 午餐 </TD>
+                <td> 晚餐 </td>
+            </tr> 
+        </table>-->
+
+        <!-- <div class="head" style="margin: 0px;"> 自我介紹欄</div>
+        <div class="content">
+            <div class="box">
+                <div><h3>我是</h3></div>
+                <div>人類</div>
+                <div>男生</div>
+                <DIV>笨蛋</DIV>
+
+            </div>
+            <div class="box"></div>
+            <div class="box"></div>
+        </div> -->
+
+        <!-- <nav>
+            <div class="logo">Logo</div>
+            <div class="menu">Menu</div>
+            <div class="user">User</div>
+        </nav> -->
+        <main>
+            <div class="item" onclick="getData('hello.html')">NEW1</div>
+            <div class="item" onclick="getData('dom.html')">NEW2</div>
+            <div class="item">NEW3</div>
+            <div class="item">NEW4</div>
+        </main>
+        <hr>
+        <div id="content">
+
+        </div>
+        
+    </body>
+</html>

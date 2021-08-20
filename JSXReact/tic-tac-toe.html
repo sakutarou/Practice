@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+    <head>
+        <meta charset="utf-8">
+        <script src="https://unpkg.com/redux@4.1.1/dist/redux.js"></script>
+        <script crossorigin src="https://unpkg.com/react@17/umd/react.production.min.js"></script>
+        <script crossorigin src="https://unpkg.com/react-dom@17/umd/react-dom.production.min.js"></script>
+        <script src = "https://unpkg.com/babel-standalone@7.0.0-beta.3/babel.js"></script>
+        
+        <style type="text/css">
+        body{
+            background-color: lightgray;
+        }
+        .board{
+            height: 300px;width: 300px;border: 5px solid black;
+            position:relative;margin-left: auto;margin-right: auto;
+        }
+        .board>.cell{
+            box-sizing: border-box;
+            height: 100px; width: 100px;border: 1px solid black;
+            display: inline-block;
+            text-align: center;vertical-align:middle;font-size: 50px;
+            line-height: 100px;
+        }
+        .board>.cell:hover{
+            background-color: gray;
+        }
+		.board>.line{
+			position:absolute;top:0px;left:0px;
+			width:300px;height:300px;
+		}
+
+        </style>
+        <script type="text/babel">
+        class Cell extends React.Component{
+            constructor(props){
+                super(props);
+            }       
+            render(){
+                let text="";
+                if(this.props.mark===1){
+                    text="O";
+                }else if(this.props.mark===-1){
+                    text="X";
+                }
+                return <div className="cell" onClick={this.click.bind(this)}>{text}</div>
+            }
+			click(e){
+				this.props.update(this.props.index);
+			}
+        }
+        class Line extends React.Component{
+            constructor(props){
+                super(props);
+            }
+            render(){
+                let startX=this.props.startIndex%3;
+				let startY=Math.floor(this.props.startIndex/3);
+				let endX=this.props.endIndex%3;
+				let endY=Math.floor(this.props.endIndex/3);
+				return <svg className="line"><line x1={startX*100+50} 
+                    y1={startY*100+50} x2={endX*100+50} 
+                    y2={endY*100+50} stroke="red" strokeWidth="5" />
+                </svg>;
+            }
+        }
+        class Board extends React.Component{
+            constructor(props){
+                super(props);
+                this.state=redux.store.getState();
+            }
+            render(){
+                let cells=[];
+                for(let i=0;i<this.state.marks.length;i++){
+                    
+                    cells.push(<Cell index={i} mark={this.state.marks[i]}
+                    update={this.updateMark.bind(this)}/>);
+                }
+                if(this.state.winner!==null){
+                    cells.push(<Line startIndex={this.state.winner.startIndex}
+                    endIndex={this.state.winner.endIndex}/>)
+                }
+                return <div className="board">{cells}</div>
+            }
+            updateMark(index){
+                
+                redux.store.dispatch({type:"UpdateMark",index:index});   
+            }
+            // 建立 Redux 的連結
+            refresh(){
+                this.setState(redux.store.getState());
+            }
+            componentDidMount(){
+                this.unsubscribe=redux.store.subscribe(this.refresh.bind(this));
+            }
+            componentWillUnmount(){
+                this.unsubscribe();
+            }
+        }
+
+        // 建立 Redux 的相關操作
+        let redux={
+            store:null,
+            reducer:function(state,action){
+                switch(action.type){
+                    case "UpdateMark":
+                        let mark = state.marks[action.index];
+                        if(mark===0 && state.winner===null){
+                            if(state.turn%2 == 1){
+                                state.marks[action.index] =1;
+                            }else if(state.turn%2==0){
+                                state.marks[action.index] =-1;
+                            }
+                            state.turn++;
+                            return{
+                                turn:state.turn,
+                                marks:state.marks,
+                                winner:redux.checkWinner(state.marks) 
+                            }
+                        }else {return state;}
+                    default:
+                        return state;
+                }
+            },
+            checkWinner:function(marks){
+                // 回傳 side:贏家是誰  startIndex:線條起點 endIndex:線條終點
+                // 回傳的資訊是個物件
+				// check horizontal
+				for(let y=0;y<3;y++){
+					if(marks[y*3]!==0&&marks[y*3]===marks[y*3+1]&&marks[y*3+1]===marks[y*3+2]){
+						return {side:marks[y*3], startIndex:y*3, endIndex:y*3+2};
+					}
+				}
+				// check vertical
+				for(let x=0;x<3;x++){
+					if(marks[x]!==0&&marks[x]===marks[3+x]&&marks[3+x]===marks[2*3+x]){
+						return {side:marks[x], startIndex:x, endIndex:2*3+x};
+					}
+				}
+				// check cross
+				if(marks[0]!==0&&marks[0]===marks[4]&&marks[4]===marks[8]){
+					return {side:marks[0], startIndex:0, endIndex:8};
+				}else if(marks[2]!==0&&marks[2]===marks[4]&&marks[4]===marks[6]){
+					return {side:marks[2], startIndex:2, endIndex:6};
+				}
+				return null;
+            }
+        };
+        
+        window.addEventListener("load",()=>{
+            redux.store = Redux.createStore(redux.reducer,{
+                turn:0,
+                marks:[0,0,0,0,0,0,0,0,0],
+                winner:null
+            });
+            
+            ReactDOM.render(<Board/>,document.body);
+        })
+        </script>
+    </head>
+    <body>
+
+    </body>
+</html>

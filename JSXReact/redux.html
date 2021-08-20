@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+    <head>
+        <meta charset="utf-8">
+        <script src="https://unpkg.com/redux@4.1.1/dist/redux.js"></script>
+        <script>
+            // Redux 用於將狀態外包
+            let store;
+            let reducer=function(state/*目前的狀態*/,action/*執行行動的物件*/){
+                // 無論狀態是否改變，都必須回傳新的狀態物件
+                switch(action.type){
+                    case "UPDATE_SWITCH":
+                        return {on:!state.on};
+                    default:
+                        return state;
+                }
+            }
+            let handler = function(){
+                // 一旦狀態有變化，就會被呼叫
+                let state = store.getState();
+                document.body.innerHTML=state.on?"on":"off";
+            }
+            window.addEventListener("load",()=>{
+                //建立狀態儲存空間，必須準備好狀態處理函式 reducer，以及初始的狀態物件
+                store = Redux.createStore(reducer,{on:false});
+                // 註冊回應狀態改變的函式
+                // store.subscribe(handler);
+                let unsubscribe = store.subscribe(handler);
+                unsubscribe(); // 取消對應的已註冊的狀態函式
+                document.addEventListener("click",()=>{
+                    // 提供行動物件，並且透過 dispatch 派送給狀態處理函式 Reducer
+                    // 行動物件要求：一定要提供 type 屬性，代表行動是什麼
+                    store.dispatch({ 
+                        type:"UPDATE_SWITCH"
+                    });
+                })
+            })
+        </script>
+    </head>
+    <body>
+    </body>
+</html>

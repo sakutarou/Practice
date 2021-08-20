@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+    <head>
+        <meta charset="utf-8">
+        <title> Redux test1</title>
+        <!-- React 作為 Javascript 套件，支援 render、createElement 等方法 -->
+        <!-- Redux 則是將 React 的狀態改變外包 -->
+        <!-- Babel 支援 JSX 語法，讓 html 的寫法能夠給 Javascript 操作 -->
+        <script src="https://unpkg.com/redux@4.1.1/dist/redux.js"></script>
+        <script crossorigin src="https://unpkg.com/react@17/umd/react.production.min.js"></script>
+        <script crossorigin src="https://unpkg.com/react-dom@17/umd/react-dom.production.min.js"></script>
+        <script src = "https://unpkg.com/babel-standalone@7.0.0-beta.3/babel.js"></script>
+        
+        <style type="text/css">
+        </style>
+        <script type="text/babel">
+            class Cell extends React.Component{
+                constructor(props){
+                    super(props);
+                }
+                render(){
+                    return <li> Hello world! {this.props.level}</li>
+                }
+            }
+            class HeadList extends React.Component{
+                constructor(props){
+                    super(props);
+                    this.state=store.getState();
+                }
+                render(){
+                    let cells = []; 
+                    for(let i=0;i<this.state.max;i++){
+                        cells.push(<Cell level={i}/>);
+                    }
+                    return <ul onClick={this.update.bind(this)}>{cells}</ul>
+                }
+                update(){
+                    // 命令 Redux 更新狀態
+                    store.dispatch({type:"ChangeMax",max:5});
+                }
+
+                // 用來連接 Redux 與 React
+                refresh(){ 
+                    // 當 Redux 的狀態有所變化的時候，會通知 refresh 方法
+                    // 用來串接所有狀態改變，確保所有改變只發生在 Redux，並出發 React 組件更換
+                    this.setState(store.getState());
+                }
+                componentDidMount(){
+                    // 當 Redux 的狀態有所變化時，通知 Refresh 方法
+                    this.unsubscribe=store.subscribe(this.refresh.bind(this));
+                }
+                componentWillUnmount(){
+                    // 清除連結點
+                    this.unsubscribe();
+                }
+            }
+            let store;
+            let reducer = function(state,action){
+                // 根據 action 的 type 做一個狀態改變的動作
+                switch(action.type){
+                    case "ChangeMax": 
+                        return {max:action.max};
+                    default:
+                        return state;
+                }
+            };
+            window.addEventListener("load",()=>{
+                // 初始化 Redux
+                store=Redux.createStore(reducer,{max:3});
+                ReactDOM.render(<HeadList/>,document.body);
+            })
+        </script>
+
+    </head>
+    <body>
+        
+    </body>
+</html>

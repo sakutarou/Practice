@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title> React </title>
+        <script crossorigin src="https://unpkg.com/react@17/umd/react.production.min.js"></script>
+        <script crossorigin src="https://unpkg.com/react-dom@17/umd/react-dom.production.min.js"></script>
+        <script>
+            class MyHead extends React.Component{
+                render(){
+                    //console.log(this.props.level);
+                    return React.createElement("H"+this.props.level,null,"Hello");
+                }
+            }
+            class MyHeadList extends React.Component{
+                constructor(props){
+                    super(props);
+                    this.state={maxLevel:props.start};
+                    // window.setTimeout(()=>{
+                    //     this.setState((currentState, currentProps)=>{maxLevel:currentState.maxLevel+1});
+                    //     },2000
+                    // );
+                }
+                componentWillMount(){ //組件要繪製前的時刻
+                    this.intervalId = window.setInterval(()=>{
+                        this.setState((currentState,currentProps)=>{
+                            if(currentState.maxLevel>currentProps.end){
+                                return currentState;
+                            }else {
+                                return {maxLevel:currentState.maxLevel+1};
+                            }});
+                    },1000)
+                }
+                componentWillUnmount(){ //組件要刪除前的時刻
+                    wondow.clearInterval(this.intervalId);
+                }
+                render(){ //組件繪製
+                    let heads=[];
+                    let head;
+                    for(let i=1;i<this.state.maxLevel;i++){
+                        head = React.createElement(MyHead,{level:i});
+                        heads.push(head);
+                    }
+                    return React.createElement("DIV",null,heads)
+                }
+            }
+            window.addEventListener("load",()=>{
+                // // 建立 <h1>Hello!</h1> 的 Create Element
+                // let reactElement = React.createElement("H1",null,"Hello!");
+                // // 將 React Element 貼在 Body 上
+                // ReactDOM.render(
+                //     reactElement,document.body
+                // )
+
+                // let myComponent = React.createElement(MyHead,{level:3});
+                // ReactDOM.render(myComponent,document.body);
+
+                let myComponent = React.createElement(MyHeadList,{start:2,end:5});
+                ReactDOM.render(myComponent,document.body);
+            })
+        </script>
+    </head>
+    <body>
+    </body>
+</html>

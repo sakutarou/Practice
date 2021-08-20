@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title> this practice</title>
+        <meta charset="utf-8">
+        <!-- this 在不同脈絡下的使用規則 -->
+        <!-- bind 綁定物件使用說明 -->
+        <!-- class and Object 的定義與使用 -->
+        <!-- ProtoType 的原型鍊 -->
+        <!-- 非同步程式的使用與處理方法 -->
+
+    </head>
+    <body>
+        <script>
+            // this 代表函式的[綁定物件]，通常在函式中使用，
+            // 在不同的程式碼脈絡下，綁定物件代表不同的東西
+
+
+            // // 獨立函式
+            // function test(){
+            //     console.log(this); //window 物件
+            //     console.log(this.innerWidth); // 印出視窗的寬度
+            // }
+            // test();
+
+            // // 物件的方法
+            // let obj={
+            //     x:3,
+            //     test:function(){
+            //         console.log(this); // 方法所屬物件本身
+            //         console.log(this.x);
+            //     }
+            // }
+            // obj.test();
+
+            // // 事件處理函式
+            // document.addEventListener("click",function(){
+            //     console.log(this); //處發事件的對象物件本身
+            //     this.body.innerHTML="clicked";
+            // })
+
+            // // 建構函式
+            // function Point(){
+            //     console.log(this); // 瀏覽器幫我們建立好的空白物件
+            //     this.x = 3;
+            //     this.y = 4;
+            // }
+            // let p1 = new Point();
+            // console.log(p1);
+
+            // 進階綁定物件
+            // bind 綁定物件
+            // function test(){
+            //     console.log("綁定物件",this)
+            // }
+            // test();
+            // let test2 = test.bind({x:3});
+            // test2();
+            // let test3 = test.bind(document); 
+            // test3();
+
+            // // 使用 apply 呼叫函式，可自己設定綁定物件
+            // function add(n1,n2){
+            //     console.log("結果",n1+n2);
+            //     console.log("綁定物件",this);
+            // }
+            // add(3,4);
+            // add.apply({y:4},[4,5]);
+
+            // // 使用 call 呼叫函式，可自己設定綁定物件
+            // add.call({y:4},3,4);
+
+            //函式撰寫
+            // let add = function(n1,n2){
+            //     return n1+n2;
+            // }
+            // let add = (n1,n2)=>{
+            //     return n1+n2;
+            // }
+            // let add = (n1,n2) => (n1+n2)
+
+            //函數預設值
+            // function show(message){
+            //     if(typeof message==="undefined"){
+            //         message = "message";
+            //     }
+            //     alert(message);
+            // }
+            // show();
+            // show("Hello");
+
+            // function show(message="message"){
+            //     alert(message);
+            // }
+            // show();
+            // show("Hello");
+            
+            // let show = (message="message")=>{
+            //     alert(message);
+            // };
+            // show();
+            // show("Hello");
+
+            // function show(first="Lin",last="Peter",name=first+" "+last){
+            //     alert(name);
+            // }
+            // show();
+
+            // //類別 Class 與 物件 Object
+            // class Car{
+            //     // 定義建構式，若沒特別寫會建構空白建構式
+            //     constructor(color="green"){ 
+            //         this.color = color;
+            //         this.speed = 0;
+            //     }
+            //     acclerate(speed){
+            //         this.speed = this.speed + speed;
+            //         console.log("The speed of car" + this.color + " is " +this.speed);
+            //     }
+            //     decelertate(speed){
+            //         this.speed = this.speed -speed;
+            //         if (this.speed <0){
+            //             this.speed = 0;
+            //         }
+            //         console.log("The speed of car" + this.color + " is " +this.speed);
+            //     }
+            //     stop(){
+            //         this.speed = 0;
+            //         console.log("The speed of car" + this.color + " is " +this.speed);
+            //     }
+            // }
+
+            // class ElectricCar extends Car{
+            //     constructor(color,power=100){
+            //         super(color);
+            //         this.power = power;
+            //     }
+            //     acclerate(speed){ // 在 child 中定義的方法，可以取代 parent 中的同名方法
+            //         this.speed = this.speed + speed;
+            //         this.power = this.power - speed;
+            //         console.log("The speed of car" + this.color + " is " +this.speed);
+            //         console.log("the power is " + this.power);
+            //     }
+            //     charge(){ // child 的專屬方法
+            //         this.power = 100;
+            //         console.log("the power is "+ this.power);
+            //     }
+            //     static showColors(){ // 與 class 綁定的方法，一般方法都是與 object 綁定
+            //         console.log("We show colored cars.");
+            //     }
+            // }
+            // let car1 = new Car();
+            // let car2 = new ElectricCar("blue");
+            // console.log(car2.color,car2.power);
+            // car2.acclerate(10);
+            // car2.decelertate(10);
+            // car2.charge();
+
+            // Prototype Chain
+            // let ecar = new ElectricCar();
+            // console.log(ecar);
+            // let car = Object.getPrototypeOf(ecar); // Car 的原型物件
+            // console.log(car);
+            // let carProto = Object.getPrototypeOf(car); // Car 的原型物件
+            // console.log(carProto);
+            // let objProto = Object.getPrototypeOf(carProto); // carProto 的原型物件
+            // console.log(objProto);
+            // let Null = Object.getPrototypeOf(objProto);// objProto 的原型物件
+            // console.log(Null);
+
+            // ecar.name="ppy";
+            // ecar.test = function(){
+            //     alert("test");
+            // }
+
+            // // 靜態方法 Static Method
+            // Car.showColors(); // 可以直接呼叫不用宣告物件, Car.accelerate 就不能跑
+            // let carObj = new Car();
+            // carObj.acclerate(); // 不可使用 carObj.showColors();
+
+
+
+            // 非同步程式 i.g. AJAX
+            // let req = new XMLHttpRequest();
+            // req.open("get","data.txt");
+            // req.onload = function(){ // 連線完成後，背景子程式觸發主程式的 load 事件處理函式
+            //     alert(this.responseText); // 取得伺服器回應
+            // }
+            // req.send(); // 主程式送出連線後，同時往下執行
+            // alert("立刻被呼叫"); //主程式結束，暫時沒事做
+
+            // 利用 callback 回呼函式處理非同步流程
+            function getData(callback){
+                let req = XMLHttpRequest();
+                req.open("get","data.txt");
+                req.onload = function(){
+                    callback(this.responseText);
+                }
+                req.send();
+            }
+            function showData(result){
+                alert(result);
+            }
+            getData(showData);
+            
+
+            // 利用 Promise 物件處理非同步流程
+            function getData(){
+                return new Promise(
+                    function(resolve,reject){ //成功的話傳回 resolve, 失敗的話傳回 reject
+                        let req = new XMLHttpRequest();
+                        req.open("get","data.txt");
+                        req.onload = function(){
+                            //如何將連線後得到的資料 this.responseText 串接到主程式上
+                            resolve(this.responseText);
+                        }
+                        req.onerror = function(){
+                            reject("Error");
+                        }
+                        req.send();
+                    }
+                )
+            }
+
+            // Promise 法，純粹用 then
+            let dataPromise = getData(); //嘗試從網路取得資料，回傳 Promise 物件
+            dataPromise.then( // then 函數等待 Promise 執行完畢
+                function(result){console.log(result);},
+                // 這裡可以從參數 result 正確取得連線後的資料
+                function(error){console.log(error);}
+            );
+            // Promise 法，用 catch 與 then，catch 只做失敗的後續處理
+            dataPromise.then(function(result){console.log(result);//如果成功的執行
+            }).catch(function(error){console.log(error);});//如果失敗的執行
+
+        </script>
+        
+        
+    </body>
+</html>

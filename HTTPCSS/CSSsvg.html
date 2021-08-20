@@ -1,0 +1,281 @@
+ <!-- -*- coding: utf-8 -*- -->
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>css3</title>
+        <meta charset="utf-8">
+        <!-- 內容：畫布、影像處理 -->
+        <style type="text/css">
+        /* .box{
+            width: 100px;
+            height: 100px;
+            border-radius: 10px;
+            background-color: lightgreen;
+            opacity: 90%;
+            transform: translate(100px,50px) scale(1.5,0.5) rotate(45deg) skew(45deg,30deg);
+        } */
+        .cube>.top{width: 240px;height: 60px;background-color: #ddd;
+                    transform: skew(-45deg,0) translate(30px,0);}
+        .cube>.center{width: 240px;height: 240px;background-color: #aaa;display: inline-block;}
+        .cube>.right{width: 60px;height: 240px;background-color: #888;display: inline-block;
+                    transform: skew(0,-45deg) translate(0,-30px);}
+        .effect{
+            animation: blink 1s infinite;
+        }
+        .box{
+            width: 100px;
+            height: 100px;
+            position: fixed;
+            top:0px;
+            right: 0px;
+            border:none;
+            border-radius: 5px;
+            background-color:lightgreen;
+            opacity: 0.5;
+            transition: opacity 1s, background-color 1s; /* 監控屬性 */
+        }
+
+
+        /* 定義動畫 */
+        @keyframes blink{
+            0%{opacity: 1;}
+            50%{opacity: 0;}
+            100%{opacity: 1;}
+        }
+        </style>
+
+        <script type="text/javascript">
+
+        //canvas
+        var cvs,ctx,pixels;
+        // window.onload=function(){
+        //     cvs = document.getElementById("cvs");
+        //     ctx = cvs.getContext("2d");
+            
+        //     //簡單繪圖
+        //     //fill
+        //     ctx.fillStyle="lightgreen";
+        //     ctx.globalAlpha=0.5;
+        //     ctx.fillRect(50,100,100,200);
+        //     ctx.globalAlpha=1;
+        //     //stroke
+        //     ctx.strokeStyle="blue";
+        //     ctx.strokeRect(300,300,100,100);
+        //     //path
+        //     ctx.beginPath();
+        //     ctx.moveTo(200,100);
+        //     ctx.lineTo(200,300);
+        //     ctx.lineTo(400,300);
+        //     ctx.closePath();
+        //     ctx.fill();
+        //     ctx.stroke();
+
+        //     影像處理
+        //     var img =new Image();
+        //     img.src="grass.jpg";
+        //     img.onload=function(){
+        //         ctx.drawImage(this,0,0,cvs.width,cvs.height);
+        //     }
+        // }
+        function invertColor(){
+            
+            pixels=ctx.getImageData(0,0,cvs.width,cvs.height); //ImageData
+            var data= pixels.data; // 一個像素佔據 R,G,B,Alpha(Opacity)
+            
+            for(var i=0;i<data.length;i+=4){
+                
+                data[i]=255-data[i];
+                data[i+1]=255-data[i+1];
+                data[i+2]=255-data[i+2];
+            };
+            ctx.putImageData(pixels,0,0);
+        }
+        function loadFile(input){
+            var file = input.files[0];
+            var src = URL.createObjectURL(file); //轉換成網址型態
+            var img = new Image();
+            img.src = src;
+            img.onload = function(){
+                ctx.drawImage(this,0,0,cvs.width,cvs.height);
+            }
+        }
+        function saveFile(){
+            var link = document.getElementById("download");
+            link.download="image.jpg";
+            link.href=cvs.toDataURL("image/jpg"); // 指定影像輸出格式
+            link.click(); //主動處發點擊事件
+        }
+
+        //video
+        var video;
+        //  window.onload = function(){
+        //     video = document.getElementById("video");
+        //     video.addEventListener("timeupdate",updateTimer);
+        //     video.addEventListener("ended",function(){
+        //         alert("ended");
+        //     })
+        // }
+        function updateTimer(){
+            var timer=document.getElementById("timer");
+            timer.innerHTML = video.currentTime +'/'+ video.duration;
+        }
+        function playVideo(){
+            video.play();
+        }
+        function pauseVideo(){
+            video.pause();
+        }
+        function replayVideo(){
+            video.currentTime=0;
+            video.play();
+        }
+
+        //animation
+        function start(){
+            var text = document.getElementById("text");
+            text.classList.add("effect");
+        }
+        function stop(){
+            var text = document.getElementById("text");
+            text.classList.remove("effect");
+        }
+
+        // window.onload=function(){
+        //     var box=document.getElementById("box");
+        //     //box.style.opacity=1;
+        //     box.addEventListener("mouseover",function(){
+        //         this.style.opacity=1;
+        //         this.style.backgroundColor="pink";
+        //     })
+        //     box.addEventListener("mouseout",function(){
+        //         this.style.opacity=0.5;
+        //         this.style.backgroundColor="lightgreen";
+        //     })
+        // }
+        function show(){
+            var box=document.getElementById("box");
+            var styles = window.getComputedStyle(box);
+            var size = styles.getPropertyValue("width");
+            size = parseInt(size);
+            var animeID = window.setInterval(function(){
+                if(size>=200){
+                    window.clearInterval(animeID);
+                    return;
+                }
+                size++;
+                box.style.width = size + "px";
+                box.style.height = size + "px";
+            },20)
+        }
+
+        //svg
+        var svg;
+        window.onload = function(){
+            svg = document.getElementById("svg");
+            // var line = document.createElementNS("http://www.w3.org/2000/svg","line")
+            // line.setAttribute("x1",70);
+            // line.setAttribute("y1",50);
+            // line.setAttribute("x2",350);
+            // line.setAttribute("y2",350);
+            // line.setAttribute("stroke","black");
+            // line.setAttribute("stroke-width",2);
+            // svg.appendChild(line);
+            // console.log(svg);
+            // var rect = createSvgElement("rect",{
+            //     "x":150,"y":100,"width":100,"height":100,"fill":"blue"
+            // });
+            // svg.appendChild(rect);
+
+            svg.addEventListener("mousedown",mouseDownSvg);
+        }
+        function createSvgElement(tagName,attrs){
+            var element = document.createElementNS("http://www.w3.org/2000/svg",tagName);
+            for(var name in attrs){
+                element.setAttribute(name,attrs[name]);
+            }
+            return element;
+        }
+
+        // draw rectangle
+        // function mouseDownSvg(e){
+        //     var x = e.clientX;
+        //     var y = e.clientY;
+        //     var bounding = this.getBoundingClientRect();
+        //     x = x - bounding.left;
+        //     y = y - bounding.top;
+
+        //     var rect=createSvgElement("rect",{
+        //         "x":x,"y":y,"width":50,"height":50,"fill":"black"
+        //     })
+        //     this.appendChild(rect);
+        // }
+
+        // draw line
+        function mouseDownSvg(e){
+            var x = e.clientX;
+            var y = e.clientY;
+            var bounding = this.getBoundingClientRect();
+            x = x - bounding.left;
+            y = y - bounding.top;
+            var line =createSvgElement("line",{
+                "x1":x,"y1":y,"x2":x,"y2":y,"stroke":"red","stroke-width":2
+            })
+            this.appendChild(line);
+            
+            var drag = function(e){
+                line.setAttribute("x2",e.clientX - bounding.left);
+                line.setAttribute("y2",e.clientY - bounding.top);
+            }
+            var drop = function(){
+                document.removeEventListener("mousemove",drag);
+                document.removeEventListener("mouseup",drop);
+            }
+
+            document.addEventListener("mousemove",drag);
+            document.addEventListener("mouseup",drop);
+
+
+        }
+        
+
+
+
+        </script>
+    </head>
+    <body>
+        <!-- <div class="box"></div> -->
+        <!-- <div class="cube">
+            <div class="top"></div>
+            <div class="center"></div><div class="right"></div>
+        </div> -->
+        <!-- <div><button onclick="invertColor();"> 顏色反轉</button></div>
+        <input type="file" onchange="loadFile(this)">
+        <button onclick="saveFile()">儲存檔案</button>
+        <a id="download"></a>
+        <canvas id="cvs" width="800" height="600" style="border:1px solid #000000"></canvas> -->
+
+        <!-- video -->
+        <!-- <video id="video" src="videoplayback.mp4"></video>
+        <div>
+            <button onclick="playVideo();">Play</button>
+            <button onclick="pauseVideo()">Pause</button>
+            <button onclick="replayVideo()">Replay</button>
+            <span id="timer"></span>
+        </div> -->
+
+        <!-- <div id="text">Hello world</div>
+        <button onclick="start();">start</button>
+        <button onclick="stop();">stop</button> -->
+
+        <!-- <div class="box" id="box" onclick="show()"></div> -->
+        
+        <svg id="svg" width = "640" height="480" style="border: 1px solid maroon;"> 
+           <!-- <line x1="50" y1="50" x2="350" y2="350" stroke="black" stroke-width="2"></line>
+            <circle cx="50" cy="50" r="10" fill="lightgreen"></circle>
+            <rect x="350" y="350" width="100" height="100" fill="lightgray"></rect>
+            <polygon points="100,200,100,100,200,200" fill="darkblue"> </polygon>>
+            <text x="100" y="100" fill="camel" font-weight="bold" font-size="50">Hello</text> -->
+        </svg>
+
+    </body>
+</html>

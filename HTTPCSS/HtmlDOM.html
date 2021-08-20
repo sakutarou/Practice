@@ -1,0 +1,106 @@
+<html>
+    <head>
+        <title> DOM </title>
+        <!-- HTML DOM　的基本應用：動態註冊事件 -->
+        <meta charset="utf-8">
+        <style type="text/css">
+        .hide{
+            display:none;
+        }
+        </style>
+        <script type="text/javascript">
+            // function change(){
+            //     var spanObj = window.document.getElementById("emotion");
+            //     if(spanObj.innerHTML=="bad"){
+            //         spanObj.innerHTML="good";
+            //     }else if(spanObj.innerHTML=="good"){
+            //         spanObj.innerHTML="bad";
+            //     };
+            //     spanObj.style.color="red";
+            //     spanObj.style.fontWeight="bold";
+            //     spanObj.style.display="none";
+            // }
+            // function toggleMenu(number){
+            //     var menu = document.getElementById("menu-"+number);
+            //     menu.classList.toggle("hide"); //切換物件的 class
+            // }
+            // function over(element){
+            //     element.style.color = "red";
+            // }
+            // function out(element){
+            //     element.style.color = "black";
+            // }
+            // function init(){ //動態的註冊事件處理器
+            //     var btn = document.getElementById("btn");
+            //     // btn.onclick = function(){
+            //     //     alert("click");
+            //     // };
+            //     var handler = function(e){ //事件處理器
+            //         alert(e.clientX+","+e.clientY);
+            //     }
+            //     btn.addEventListener("click"/*事件的名稱*/,handler);
+            //     document.addEventListener("keydown",function(e){
+            //         alert(e.keyCode);
+            //     })
+            //     btn.addEventListener("mouseover",function(){
+            //         btn.style.color = "red";
+            //     })
+            //}
+
+            var timer;
+            function init(){
+                timer=document.getElementById("timer");
+                //window.setTimeout(countdown,1000);
+                window.setInterval(countdown,1000);
+            }
+            function countdown(){
+                timer.innerHTML=timer.innerHTML-1;
+                
+                // if(timer.innerHTML>0){
+                //     window.setTimeout(countdown,1000);
+                // }else{
+                //     //document.location="http://google.com";
+                // }
+            }
+            
+        </script>
+    </head>
+    <body onload="init();">
+        <!-- <div>
+            Today is a <span id = "emotion">good</span> day.
+        </div>
+        <button onclick = "change();">
+            Change
+        </button> -->
+
+        <!-- <div onclick="toggleMenu(1)"> 選單標題 </div>
+        <ul id="menu-1" class="hide">
+            <li>1號開頭</li>
+            <li>2號開頭</li>
+            <li>3號開頭</li>
+        </ul>
+        <div onclick="toggleMenu(2)"> 選單標題 </div>
+        <ul id="menu-2" class="hide">
+            <li>1號開頭</li>
+            <li>2號開頭</li>
+            <li>3號開頭</li>
+        </ul>
+        <div onclick="toggleMenu(3)"> 選單標題 </div>
+        <ul id="menu-3" class="hide">
+            <li>1號開頭</li>
+            <li>2號開頭</li>
+            <li>3號開頭</li>
+        </ul> -->
+
+        <!-- <button onclick="alert('clicked');">
+            click
+        </button>
+        <span onmouseover="over(this);", onmouseout="out(this);">
+            test
+        </span> -->
+        <button id ="btn">
+            click
+        </button>
+        <span id="timer">3</span>
+    </body>
+</html>
