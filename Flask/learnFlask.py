@@ -43,3 +43,22 @@ Flask(__name__,static_folder="資料夾名稱",static_url_path="對應路徑")
 # 回應JSON格式的字串:透過 json.dumps()將 {}型態 的資料轉成 JSON 交出去
 # 重新導向：使用 redirect(網址路徑)
 
+# 樣版引擎 template engieen
+# 網站後端回應給網站前端的一種方式，也就是 respone a template engieen
+# 根據樣板檔案，產生字串，傳送到前端
+# 方便撰寫複雜的前端程式、方便在回應中動態帶入資料
+# 其檔案為純文字檔，並建立在 templates 的資料夾底下
+# 使用上透過 render_template(檔案路徑) 來表示
+# 定義動態資料欄位 {{資料欄位名稱}}
+# render_template(檔案路徑,資料欄位名稱=資料)
+
+# 前端發出 Request 請求，網站後端回應 html 程式碼
+<form action="網址路徑">
+    <input type="text" name="data"></input>
+    <button> 點擊送出表單 </button>
+</form>
+#發出請求到 網址路徑?data=使用者輸入
+@app.route("網址路徑")
+def handle():
+    input=request.args.get("data","") #後面的內容表示預設值
+    return "給前端的回應"

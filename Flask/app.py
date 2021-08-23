@@ -2,6 +2,7 @@ from flask import Flask # 載入 Flask
 from flask import request # 載入請求物件
 from flask import redirect
 import json
+from flask import render_template
 
 # 建立 Application 物件，可以設定靜態檔案的路徑
 app = Flask(
@@ -73,5 +74,26 @@ def getData():
 def handleUser(username):
     return "Hello "+ username
 
+@app.route("/template")
+def template():
+    return render_template("index",name="曉明")
+
+@app.route("/front")
+def front():
+    return render_template("index.html")
+
+@app.route("/show")
+def show():
+    name = request.args.get("name","")
+    return "hello " + name
+
+@app.route("/calculate")
+def calculate():
+    max =request.args.get("max","")
+    max = int(max)
+    result = 0
+    for i in range(1,max+1):
+        result += i
+    return render_template("calculation.html", result = result)
 # 啟動網站伺服器，可透過 port 參數指定埠號
 app.run(port=3000) # 預設5000
