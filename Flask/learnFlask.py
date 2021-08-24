@@ -1,3 +1,4 @@
+#  <!-- -*- coding: utf-8 -*- -->
 # 網址 Web Address / URL
 # 透過連線到特定網路服務的地址
 # 網址的組成：通訊協定://主機名稱:埠號/路徑?要求字串
@@ -62,3 +63,35 @@ Flask(__name__,static_folder="資料夾名稱",static_url_path="對應路徑")
 def handle():
     input=request.args.get("data","") #後面的內容表示預設值
     return "給前端的回應"
+
+# 連線方法 Method :GET、POST、PUT、DELETE、PATCH
+# 網址：收件地址
+# 方法：平信、限時
+# 透過表單設定連線方法，不寫時預設 get
+<form action="網址路徑" method="GET">
+    <input type="text" name="data">
+    <button>點擊送出表單</button>
+</form>
+# 使用 GET 方法，發出請求到 網址路徑?name=使用者輸入
+@app.route("網址路徑",methods=["GET"])
+def handle():
+    input=request.args.get("data","")
+    return 給前端的回應內容
+# 使用 POST 方法，data=使用者輸入 的要求字串不會顯示在網址後面，而另外存放
+@app.route("網址路徑",methods=["POST"])
+def handle():
+    input = request.form["data"]
+    # input = request.form.get["data"]
+    return 給前端的回應內容
+# 前後端互動：直接輸入網址(GET)、超連結(GET)、表單(set GET or POST)
+
+
+# 每次連線具有獨立性，因為 HTTP 屬於無狀態的通訊協定
+# 管理使用者狀態可以解決這個問題，它可以記憶使用者對象
+# 建立 session 保存使用者資料
+name = request.args.get("name",None)
+session["data"] = name
+return "你好" + name
+# 存入資料 session 中的 data
+name = session["name"]
+return name + "很高興認識你"

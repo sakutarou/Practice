@@ -3,6 +3,7 @@ from flask import request # 載入請求物件
 from flask import redirect
 import json
 from flask import render_template
+from flask import session # 載入 使用者管理 套件時，記得使用 secret key
 
 # 建立 Application 物件，可以設定靜態檔案的路徑
 app = Flask(
@@ -10,6 +11,8 @@ app = Flask(
     static_folder="static", # 靜態檔案的資料夾名稱，預設 static
     static_url_path="/" # 靜態檔案的對應路徑，預設 /static
 ) # 所有在 static 資料夾底下的資料都會對應到 "/" 路徑下的檔案名稱
+
+app.secret_key = "any string but secret" # 設定 session 的密鑰
 
 # 建立路徑 /getSum 的對應處理函式
 # 利用要求字串提供彈性 /getSum?max=最大數值&min=最小數值
@@ -26,8 +29,8 @@ def getSum():
 
 # 動態路由
 # 建立網站首頁的回應方式，路由設定(建立路徑 / 的對應處理函式)
-@app.route("/") # 根目錄
-def index(): # 用來回應路徑 / 連線的函式
+# @app.route("/") # 根目錄
+# def index(): # 用來回應路徑 / 連線的函式
     # print("請求方法", request.method)
     # print("通訊協定", request.scheme)
     # print("主機名稱", request.host)
@@ -43,18 +46,16 @@ def index(): # 用來回應路徑 / 連線的函式
     else:
         return redirect("/ch/")
 
-
-
-@app.route("/en/")
-def index_en():
+# @app.route("/en/")
+# def index_en():
     return json.dumps(
         {
         "status":"ok",
         "text":"hello"
     })
 
-@app.route("/ch/")
-def index_ch():
+# @app.route("/ch/")
+# def index_ch():
     return json.dumps(
         {
             "text":"你好",
@@ -78,7 +79,7 @@ def handleUser(username):
 def template():
     return render_template("index",name="曉明")
 
-@app.route("/front")
+@app.route("/",methods=["GET"])
 def front():
     return render_template("index.html")
 
@@ -87,13 +88,25 @@ def show():
     name = request.args.get("name","")
     return "hello " + name
 
-@app.route("/calculate")
+@app.route("/calculate",methods=["POST"])
 def calculate():
-    max =request.args.get("max","")
+    # 接收方法的 Query String
+    max = request.form["max"]
     max = int(max)
     result = 0
     for i in range(1,max+1):
         result += i
     return render_template("calculation.html", result = result)
 # 啟動網站伺服器，可透過 port 參數指定埠號
+
+@app.route("/hello")
+def hello():
+    name = request.args.get("name","")
+    session["userName"] = name
+    return "你好，" + name
+
+@app.route("/talk")
+def talk():
+    name = session["userName"]
+    return "原來是你啊! " + name 
 app.run(port=3000) # 預設5000
