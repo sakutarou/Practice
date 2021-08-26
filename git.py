@@ -59,6 +59,9 @@ git log -S "Ruby" # 在檔案中尋找特定字
 git log --oneline --since="9am" --until="12am" --after="2017-01" #從 2017 年 1 月之後，每天早上 9 點到 12 點的 Commit
 git log welcome.html # 檢視特定檔案的歷史紀錄
 git log -p welcome.html # 修改檔案細節
+git show-branch # 查看 loacl branch 的紀錄
+git show-branch -r
+git show-branch -a
 
 
 # 對 git 的修改、忽略、加入、查詢
