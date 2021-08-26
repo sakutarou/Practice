@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="zh_Hant">
+    <head>
+        <meta charset="utf-8">
+        <title> 前端工程專題</title>
+        <style type="text/css">
+        .box{
+            border: 1px solid black;height: 100px;width: 100px;
+            overflow: hidden; 
+            /* 預設 visible，可用 auto,scroll,hidden */
+        }
+        </style>
+        <script>
+            // #01 Google Chrome 的 WebServer 使用，能動態修改網頁內容
+            // #02 控制捲軸的出現
+            let box;
+            window.onload = function(){
+                box = document.getElementById("box");
+                box.scrollTop=0;
+                window.setInterval(scroll,50);
+            }
+            function scroll(){
+                box.scrollTop++;
+            }
+        </script>
+    </head>
+    <body>
+        <div class="box" id="box">
+            <div>line1</div>
+            <div>line2</div>
+            <div>line3</div>
+            <div>line4</div>
+            <div>line5</div>
+            <div>line6</div>
+            <div>line7</div>
+        </div>
+    </body>
+</html>
