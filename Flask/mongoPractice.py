@@ -39,10 +39,47 @@ collection = db.members # 選擇操作 members 集合
 # print(data["email"])
 
 # 一次取得多筆文件的資料
-cursor = collection.find() # 這是一個讀寫頭
-print(cursor)
-for doc in cursor:
-    print(doc["name"])
+# cursor = collection.find() # 這是一個讀寫頭
+# print(cursor)
+# for doc in cursor:
+#     print(doc["name"])
+
+# 更新集合中的一筆資料
+# result = collection.update_one({
+#     "email":"test@test.com"
+# },{
+#     "$set":{
+#         "password":"123"
+#     }
+# })
+
+# result = collection.update_many({
+#     "name":"john"
+# },{
+#     "$set":{
+#         "password":"kaka",
+#         "level":2
+#     }
+# })
+
+# result = collection.update_many({
+#     "name":"john"
+# },{
+#     "$unset":{
+#         "level":2
+#     }
+# })
+
+result = collection.update_many({
+    "name":"john"
+},{
+    "$inc":{  # mul
+        "level":2
+    }
+})
+
+print("符合條件的文件數量",result.matched_count)
+print("實際更新的文件數量",result.modified_count)
 
 # 印出該文件的 id
 # print(result.inserted_ids)

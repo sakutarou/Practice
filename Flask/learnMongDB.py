@@ -13,6 +13,7 @@
 # JSON 格式友善、簡潔的文件模型、容易水平擴展
 # 在網路上先進入 MongoDB 的網站，建立好 DataBase 與連結入口
 # pip install pymongo[srv] 
+# on Mac: pip3 install "pymongo[srv]" 
 # 記得有些電腦要處理 ssl 的問題
 
 # 資料庫結構
@@ -45,3 +46,18 @@
 # 使用 for 迴圈逐一取得文件
 # for doc in cursor:
 #   print(doc)
+
+# 更新符合條件的一筆文件欄位
+# collection = db.website
+# update_one(篩選條件,更新的資訊)
+# collection.update_one( {"email":"test@test.com"} , {"$set": {"password":"testtest"} })
+# collection.update_many({"level":2},{"$set":{"role":"editor"}})
+# 使用覆蓋並新增欄位 "$set"
+# 使用加減數字欄位 "$inc"
+# 使用乘除數字欄位 "$mul"
+# 使用刪除欄位 "unset" 後面資料無所謂
+
+# 取得更新的結果
+# result = update_one()
+# print(result.matched_count) 符合篩選條件的文件數量
+# print(result.modified_count) 實際完成更新的文件數量
