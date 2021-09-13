@@ -70,16 +70,28 @@ collection = db.members # 選擇操作 members 集合
 #     }
 # })
 
-result = collection.update_many({
-    "name":"john"
-},{
-    "$inc":{  # mul
-        "level":2
-    }
-})
+# result = collection.update_many({
+#     "name":"john"
+# },{
+#     "$inc":{  # mul
+#         "level":2
+#     }
+# })
 
-print("符合條件的文件數量",result.matched_count)
-print("實際更新的文件數量",result.modified_count)
+# 刪除集合中的資料
+# result = collection.delete_one({
+#     "name":"mary"
+# })
+# result = collection.delete_many({
+#     "name":"mary"
+# })
+
+# 未成功、分類
+result = collection.sort({"name":"mary"})
+
+# print("符合條件的文件數量",result.matched_count)
+# print("實際更新的文件數量",result.modified_count)
+
 
 # 印出該文件的 id
 # print(result.inserted_ids)

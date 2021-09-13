@@ -61,3 +61,12 @@
 # result = update_one()
 # print(result.matched_count) 符合篩選條件的文件數量
 # print(result.modified_count) 實際完成更新的文件數量
+
+
+# 刪除資料
+# result = collection.delete_one({ 某個屬性與對應值 })
+# result = collection.delete_many({ 某個屬性與對應值 })
+
+# 篩選資料
+# result = collection.sort({"name":"mary"})
+
