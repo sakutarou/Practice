@@ -69,12 +69,12 @@ async function run() {
     // );
 
     // create a query for a movie to update
-    const query = { title: { $regex: "The Cat from" } };
+    const query = { name : "cake" };
     // create a new document that will be used to replace the existing document
     const replacement = {
-      title: `The Cat from Sector ${Math.floor(Math.random() * 1000) + 1}`,
+      name : "caky",
     };
-    const result = await movies.replaceOne(query, replacement);
+    const result = await foods.replaceOne(query, replacement);
     console.log(`Modified ${result.modifiedCount} document(s)`);
 
   } finally {
