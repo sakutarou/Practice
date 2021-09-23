@@ -4,6 +4,8 @@ const uri = "mongodb+srv://root:root123@mycluster.xgf87.mongodb.net/myFirstDatab
 
 const client = new MongoClient(uri,{
     serverApi:{
-        
+        version: ServerApiVersion.v1,
+        strict: true,
+        seprecationErrors: true
     }
 })
