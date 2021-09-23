@@ -15,11 +15,28 @@ const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology:
 //   client.close();
 // });
 
+// const simulateAsyncPause = () =>
+//   new Promise( resolve =>{
+//     setTimeOut(()=>resolve(),1000);
+//   });
+// let changeStream;
+
 async function run() {
   try {
     await client.connect();
     const database = client.db("insertDB");
     const foods = database.collection("foods");
+
+    // await simulateAsyncPause();
+    // await collection.insertOne({
+    //   title: "Record of a Shriveled Datum",
+    //   content: "No bytes, no problem. Just insert a document, in MongoDB",
+    // });
+    // await simulateAsyncPause();
+    // await changeStream.close();
+    
+    // console.log("closed the change stream");
+
     // create documents to insert
     // const docs = [
     //   { name: "cake", healthy: false },
@@ -53,30 +70,92 @@ async function run() {
     // }
     // await cursor.forEach(console.log);
 
-    // // create a filter for a movie to update
+    // create a filter for a food to update
     // const filter = { name: "cake" };
     // // this option instructs the method to create a document if no documents match the filter
     // const options = { upsert: true };
-    // // create a document that sets the plot of the movie
     // const updateDoc = {
-    //   $set: {
-    //     healthy : true,
-    //   },
+    //   $set: { healthy : true },
     // };
     // const result = await foods.updateMany(filter, updateDoc, options);
-    // console.log(
-    //   `${result.matchedCount} document(s) matched the filter, updated ${result.modifiedCount} document(s)`,
-    // );
+    // console.log(`${result.matchedCount} document(s) matched the filter, updated ${result.modifiedCount} document(s)`,);
 
-    // create a query for a movie to update
-    const query = { name : "cake" };
-    // create a new document that will be used to replace the existing document
-    const replacement = {
-      name : "caky",
-    };
-    const result = await foods.replaceOne(query, replacement);
-    console.log(`Modified ${result.modifiedCount} document(s)`);
+    // replace some attributes in documents
+    // const query = { name : "cake" };
+    // const replacement = { name : "caky" };
+    // const result = await foods.replaceOne(query, replacement);
+    // console.log(`Modified ${result.modifiedCount} document(s)`);
 
+    // delete one document
+    // const query = { name : "cake" }
+    // const result = await foods.deleteOne(query);
+    // if (result.deletedCount === 1 ){
+    //   console.log("Scuuessfully deleted one record!");
+    // }else{
+    //   console.log("No documents have been deleted!");
+    // }
+
+    // delete many documents
+    // Query for all foods with a name containing the string "ca"
+    // const query = { name: { $regex: "ca" } };
+    // const result = await foods.deleteMany(query);
+    // console.log("Deleted " + result.deletedCount + " documents");
+
+    // count documents
+    // const query = { name : "lettuce" }
+    // const estimate = await foods.estimatedDocumentCount();
+    // const countLettuce = await foods.countDocuments(query);
+    // console.log('estimated the number of documents in foods collection:' + countLettuce);
+  
+    // Retrieve the distinct values of a field
+    // const query = { name : "lettuce"}
+    // const fieldName = "healthy";
+    // const distinctValues = await foods.distinct(fieldName,query);
+    // console.log(distinctValues);
+
+    // do something for all raw databases
+    // const db = client.db("sample");
+    // const result = await db.command({
+    //   dbStats:0
+    // });
+    // console.log(foods);
+
+    // Bulk write
+    const result = await foods.bulkWrite([
+      {insertOne:{
+        document:{
+          location:{
+            address:{
+              street: "3. Street",
+              city: "Beiking",
+              state: "China",
+              zipcode: "99581"
+            }
+          }
+        }
+      }},
+      {insertOne:{
+        document:{
+          location:{
+            address:{
+              street: "4. Street",
+              city: "Washtong",
+              state: "America",
+              zipcode: "99517"
+            }
+          }
+        }
+      }},
+      {updateMany:{
+        filter:{"location.address.zipcode":"99517"},
+        update:{$set:{"is_here":true}},
+        upsert:true
+      }},
+      {deleteOne:{
+        filter:{"location.address.street":"3. Street"}
+      }}
+    ])
+    console.log(result);  
   } finally {
     await client.close();
   }
