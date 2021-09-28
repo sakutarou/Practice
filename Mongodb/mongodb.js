@@ -5,6 +5,18 @@ const uri = "mongodb+srv://root:root123@mycluster.xgf87.mongodb.net/myFirstDatab
 // 建立 MongoClient 物件並給予連結及驗證
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 
+// // Replace the following with values for your environment.
+// const username = encodeURIComponent("root");
+// const password = encodeURIComponent("root123");
+// const clusterUrl = "mycluster.xgf87.mongodb.net/myFirstDatabase";
+// const authMechanism = "DEFAULT"; //e.g. "SCRAM-SHA-256","SCRAM-SHA-1", and can be omitted in "MONGODB-CR"
+// or GSSAPI mechanism with Kerberos, or PLAIN mechanism with LDAP (Lightweight Directory Access Protocol)
+// // Replace the following with your MongoDB deployment's connection string.
+// const uri =
+//   `mongodb+srv://${username}:${password}@${clusterUrl}/?authMechanism=${authMechanism}`;
+// // Create a new MongoClient
+// const client = new MongoClient(uri);
+
 
 // client.connect(err => {
 //   const collection = client.db("test").collection("devices");
