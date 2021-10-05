@@ -76,7 +76,52 @@
 # Watch for changes with change streams.
 # call watch() on  collection,DB or MongoClient.
 
-
+# For Each Functional Iteration¶
 # const cursor = collection.find({});
 # await cursor.forEach(doc => console.log(doc));
+
+# Return an Array of All Documents
+# const cursor = collection.find({});
+# const allValues = await cursor.toArray();
+
+# Asynchronous Iteration
+# const cursor = collection.find({});
+# console.log("async");
+# for await (const doc of cursor) {
+#   console.log(doc);
+# }
+
+# Manual Iteration
+# const cursor = collection.find({});
+# while (await cursor.hasNext()) {
+#     console.log(await cursor.next());
+# }
+
+# Stream API
+#   const cursor = collection.find({});
+#   cursor.stream().on("data", doc => console.log(doc));
+
+# Event API
+#   const cursor = collection.find({});
+#   // the "data" event is fired once per document
+#   cursor.on("data", data => console.log(data));
+
+# Count
+#   const cursor = collection.find({});
+#   const count = await cursor.count();
+
+# Rewind 回到初始位置
+#   const cursor = collection.find({});
+#   const firstResult = await cursor.toArray();
+#   console.log("First count: " + firstResult.length);
+#   await cursor.rewind();
+#   const secondResult = await cursor.toArray();
+#   console.log("Second count: " + secondResult.length);
+
+# Close
+#   await cursor.close();
+
+
+
+
 
