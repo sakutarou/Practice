@@ -27,18 +27,27 @@ const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology:
 //   client.close();
 // });
 
-// const simulateAsyncPause = () =>
-//   new Promise( resolve =>{
-//     setTimeOut(()=>resolve(),1000);
-//   });
-// let changeStream;
+const simulateAsyncPause = () =>
+  new Promise( resolve =>{
+    setTimeOut(()=>resolve(),1000);
+  });
+let changeStream;
 
 async function run() {
   try {
     await client.connect();
     const database = client.db("insertDB");
     const foods = database.collection("foods");
+    // const options = { fullDocument: "updateLookup" };
+    // const pipeline = [];
 
+    // open a Change Stream on the "foods" collection
+    // changeStream = foods.watch(pipeline, options);
+    // // set up a listener when change events are emitted
+    // changeStream.on("change", next => {
+    //   // process any change event
+    //   console.log("received a change to the collection: \t", next);
+    // });
     // await simulateAsyncPause();
     // await collection.insertOne({
     //   title: "Record of a Shriveled Datum",
@@ -133,41 +142,42 @@ async function run() {
     // console.log(foods);
 
     // Bulk write
-    const result = await foods.bulkWrite([
-      {insertOne:{
-        document:{
-          location:{
-            address:{
-              street: "3. Street",
-              city: "Beiking",
-              state: "China",
-              zipcode: "99581"
-            }
-          }
-        }
-      }},
-      {insertOne:{
-        document:{
-          location:{
-            address:{
-              street: "4. Street",
-              city: "Washtong",
-              state: "America",
-              zipcode: "99517"
-            }
-          }
-        }
-      }},
-      {updateMany:{
-        filter:{"location.address.zipcode":"99517"},
-        update:{$set:{"is_here":true}},
-        upsert:true
-      }},
-      {deleteOne:{
-        filter:{"location.address.street":"3. Street"}
-      }}
-    ])
-    console.log(result);  
+    // const result = await foods.bulkWrite([
+    //   {insertOne:{
+    //     document:{
+    //       location:{
+    //         address:{
+    //           street: "3. Street",
+    //           city: "Beiking",
+    //           state: "China",
+    //           zipcode: "99581"
+    //         }
+    //       }
+    //     }
+    //   }},
+    //   {insertOne:{
+    //     document:{
+    //       location:{
+    //         address:{
+    //           street: "4. Street",
+    //           city: "Washtong",
+    //           state: "America",
+    //           zipcode: "99517"
+    //         }
+    //       }
+    //     }
+    //   }},
+    //   {updateMany:{
+    //     filter:{"location.address.zipcode":"99517"},
+    //     update:{$set:{"is_here":true}},
+    //     upsert:true
+    //   }},
+    //   {deleteOne:{
+    //     filter:{"location.address.street":"3. Street"}
+    //   }}
+    // ])
+    // console.log(result); 
+     
   } finally {
     await client.close();
   }

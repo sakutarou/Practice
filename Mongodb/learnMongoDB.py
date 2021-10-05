@@ -32,3 +32,51 @@
 # const movie = await movies.findOne(query, options);
 
 
+# CURD: read method
+
+# find/findOne
+# const findResult = await orders.find({
+#   name: "Lemony Snicket",
+#   date: {
+#     $gte: new Date(new Date().setHours(00, 00, 00)),
+#     $lt: new Date(new Date().setHours(23, 59, 59)),
+#   },
+# });
+# await findResult.forEach(console.dir);
+## where findResult is a Cursor
+
+# aggregate method
+# aggregation pipeline
+# db.orders.aggregate([
+#    { $match: { status: "A" } },    # filter
+#    { $group: { _id: "$cust_id", total: { $sum: "$amount" } } }  #document transformations
+# ])
+
+# Single Purpose Aggregation Operations
+# db.orders.distinct("cust_id") # 找出不同的 cust_id
+
+#const aggregateResult = await orders.aggregate([
+#   {
+#     $match: {
+#       date: {
+#         $gte: new Date(new Date().getTime() - 1000 * 3600 * 24 * 7),
+#         $lt: new Date(),
+#       },
+#     },
+#   },
+#   {
+#     $group: {
+#       _id: "$status",
+#       count: {$sum: 1,},
+#     },
+#   },
+# ]);
+
+# Watch Method
+# Watch for changes with change streams.
+# call watch() on  collection,DB or MongoClient.
+
+
+# const cursor = collection.find({});
+# await cursor.forEach(doc => console.log(doc));
+
